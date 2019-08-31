@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, serif;
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+a.active {
+  color: red;
+}
+
+nav a {
+  display: inline-block;
+  padding: 5px;
+}
