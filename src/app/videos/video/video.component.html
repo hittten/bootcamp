@@ -1,0 +1,8 @@
+<img [src]="video.image" alt="{{video.title}}" (click)="onClickImage()">
+<p>
+  <strong>{{video.title}}</strong> ({{video.duration}}s)
+  <label>
+    <input type="checkbox" [(ngModel)]="video.favorite">
+  </label>
+  <button (click)="onClickButton(video)">{{buttonLabel}}</button>
+</p>

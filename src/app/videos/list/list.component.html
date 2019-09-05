@@ -1,6 +1,4 @@
 <div class="video-list">
-  <div *ngFor="let video of videos">
-    <img src="{{video.image}}" alt="{{video.title}}" (click)="openDetail(video)">
-    <p><strong>{{video.title}}</strong> ({{video.duration}}s)</p>
-  </div>
+  <app-video *ngFor="let video of videos" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
+             (clickButton)="addToPlaylist(video)"></app-video>
 </div>

@@ -1,1 +1,4 @@
-<p>playlist works!</p>
+<div class="video-list">
+  <app-video *ngFor="let video of playlist" [video]="video" buttonLabel="-"
+             (clickButton)="removeFromPlaylist(video)"></app-video>
+</div>

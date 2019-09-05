@@ -3,4 +3,5 @@ export class Video {
   title: string;
   image: string;
   duration: number;
+  favorite: boolean;
 }

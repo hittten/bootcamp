@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {VIDEOS} from '../mock-videos';
+import {PLAYLIST, VIDEOS} from '../mock-videos';
 import {Video} from '../video';
 
 @Component({
@@ -8,7 +8,8 @@ import {Video} from '../video';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  private videos = VIDEOS;
+  videos = VIDEOS;
+  playlist = PLAYLIST;
 
   constructor() {
   }
@@ -19,5 +20,9 @@ export class ListComponent implements OnInit {
   // TODO: open detail
   openDetail(video: Video) {
     alert(`TODO open detail ${video.title}`);
+  }
+
+  addToPlaylist(video: Video) {
+    this.playlist.push(video);
   }
 }
