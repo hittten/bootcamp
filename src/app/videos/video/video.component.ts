@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Video} from '../video';
 
 @Component({
@@ -12,6 +12,8 @@ export class VideoComponent implements OnInit {
   @Output() clickImage = new EventEmitter<void>();
   @Output() clickButton = new EventEmitter<void>();
 
+  @ViewChild('check', {static: false}) checkInput: ElementRef;
+
   constructor() {
   }
 
@@ -24,5 +26,13 @@ export class VideoComponent implements OnInit {
 
   onClickButton() {
     this.clickButton.emit();
+  }
+
+  toggleFavorite(video: Video) {
+    video.favorite = !video.favorite;
+  }
+
+  toggleFavoriteViewChild() {
+    this.checkInput.nativeElement.checked = !this.checkInput.nativeElement.checked;
   }
 }

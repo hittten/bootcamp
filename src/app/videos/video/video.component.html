@@ -1,8 +1,21 @@
-<img [src]="video.image" alt="{{video.title}}" (click)="onClickImage()">
-<p>
-  <strong>{{video.title}}</strong> ({{video.duration}}s)
-  <label>
-    <input type="checkbox" [(ngModel)]="video.favorite">
-  </label>
-  <button (click)="onClickButton(video)">{{buttonLabel}}</button>
-</p>
+<div class="content">
+  <img [src]="video.image" alt="{{video.title}}" (click)="onClickImage()">
+  <div>
+    <strong>{{video.title}}</strong> ({{video.duration}}s)
+    <label>
+      <input #check type="checkbox" [(ngModel)]="video.favorite">
+    </label>
+  </div>
+  <div>
+    <button (click)="onClickButton()">{{buttonLabel}}</button>
+    <button (click)="toggleFavorite(video)">Fav</button>
+    <button (click)="check.checked=!check.checked">Ref</button>
+    <button (click)="toggleFavoriteViewChild()">VC</button>
+  </div>
+  <div>
+    <label>
+      Note: <br>
+      <textarea [(ngModel)]="video.note"></textarea>
+    </label>
+  </div>
+</div>
