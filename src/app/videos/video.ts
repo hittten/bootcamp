@@ -4,5 +4,6 @@ export class Video {
   image: string;
   duration: number;
   favorite: boolean;
+  createdAt: Date;
   note?: string;
 }

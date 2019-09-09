@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Video} from '../video';
 
 @Component({
@@ -6,7 +6,7 @@ import {Video} from '../video';
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, OnChanges {
   @Input() video: Video;
   @Input() buttonLabel: string;
   @Output() clickImage = new EventEmitter<void>();
@@ -18,6 +18,10 @@ export class VideoComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 
   onClickImage() {

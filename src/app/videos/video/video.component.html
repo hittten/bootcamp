@@ -1,11 +1,12 @@
 <div class="content">
   <img [src]="video.image" alt="{{video.title}}" (click)="onClickImage()">
   <div>
-    <strong>{{video.title}}</strong> ({{video.duration}}s)
+    <strong>{{video.title}}</strong> ({{video.duration | time}})
     <label>
       <input #check type="checkbox" [(ngModel)]="video.favorite">
     </label>
   </div>
+  <div class="createdAt">{{video.createdAt | date:'short' }}</div>
   <div>
     <button (click)="onClickButton()">{{buttonLabel}}</button>
     <button (click)="toggleFavorite(video)">Fav</button>
@@ -15,7 +16,7 @@
   <div>
     <label>
       Note: <br>
-      <textarea [(ngModel)]="video.note"></textarea>
+      <textarea appHighlight [(ngModel)]="video.note"></textarea>
     </label>
   </div>
 </div>
