@@ -1,2 +1,4 @@
-<p>detail of {{video.title}}</p>
-<app-video [video]="video" buttonLabel="+"></app-video>
+<div *ngIf="video$ | async as video">
+  <p>detail of {{video.title}}</p>
+  <app-video [video]="video" buttonLabel="+"></app-video>
+</div>

@@ -11,6 +11,7 @@ import {
 import {Video} from '../video';
 import {VideoService} from '../video.service';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -19,13 +20,13 @@ import {Router} from '@angular/router';
 })
 export class ListComponent
   implements OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
-  videos: Video[];
-  playlist: Video[];
+  videos$: Observable<Video[]>;
+  playlist$: Observable<Video[]>;
 
   constructor(private videoService: VideoService, private router: Router) {
     videoService.addCount();
-    this.videos = this.videoService.getVideos();
-    this.playlist = this.videoService.getPlaylist();
+    this.videos$ = this.videoService.getVideos();
+    this.playlist$ = this.videoService.getPlaylist();
     console.log('ListComponent constructor');
   }
 
@@ -62,6 +63,8 @@ export class ListComponent
   }
 
   addToPlaylist(video: Video) {
-    this.playlist.push(video);
+    this.playlist$.subscribe(videos => {
+      videos.push(video);
+    });
   }
 }

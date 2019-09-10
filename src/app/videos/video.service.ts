@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Video} from './video';
 import {PLAYLIST, VIDEOS} from './mock-videos';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,17 +22,17 @@ export class VideoService {
     console.log(this.count);
   }
 
-  getVideo(id: number): Video {
-    const index = this.getVideos().findIndex(video => video.id === id);
+  getVideo(id: number): Observable<Video> {
+    const index = VIDEOS.findIndex(video => video.id === id);
 
-    return this.getVideos()[index];
+    return of(VIDEOS[index]);
   }
 
-  getVideos(): Video[] {
-    return VIDEOS;
+  getVideos(): Observable<Video[]> {
+    return of(VIDEOS);
   }
 
-  getPlaylist(): Video[] {
-    return PLAYLIST;
+  getPlaylist(): Observable<Video[]> {
+    return of(PLAYLIST);
   }
 }

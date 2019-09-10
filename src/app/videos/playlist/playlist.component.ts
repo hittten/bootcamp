@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import {Video} from '../video';
 import {VideoService} from '../video.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-playlist',
@@ -18,11 +19,11 @@ import {VideoService} from '../video.service';
 })
 export class PlaylistComponent
   implements OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
-  playlist: Video[];
+  playlist$: Observable<Video[]>;
 
   constructor(private videoService: VideoService) {
     this.videoService.showCount();
-    this.playlist = this.videoService.getPlaylist();
+    this.playlist$ = this.videoService.getPlaylist();
     console.log('PlaylistComponent constructor');
   }
 
@@ -55,7 +56,9 @@ export class PlaylistComponent
   }
 
   removeFromPlaylist(video: Video) {
-    const id = this.playlist.findIndex(value => value.id === video.id);
-    this.playlist.splice(id, 1);
+    this.playlist$.subscribe(videos => {
+      const id = videos.findIndex(value => value.id === video.id);
+      videos.splice(id, 1);
+    });
   }
 }

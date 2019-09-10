@@ -1,4 +1,4 @@
 <div class="video-list">
-  <app-video *ngFor="let video of videos" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
+  <app-video *ngFor="let video of videos$ | async" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
              (clickButton)="addToPlaylist(video)"></app-video>
 </div>
