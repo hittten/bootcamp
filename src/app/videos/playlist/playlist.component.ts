@@ -8,8 +8,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {PLAYLIST} from '../mock-videos';
 import {Video} from '../video';
+import {VideoService} from '../video.service';
 
 @Component({
   selector: 'app-playlist',
@@ -18,9 +18,11 @@ import {Video} from '../video';
 })
 export class PlaylistComponent
   implements OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
-  playlist = PLAYLIST;
+  playlist: Video[];
 
-  constructor() {
+  constructor(private videoService: VideoService) {
+    this.videoService.showCount();
+    this.playlist = this.videoService.getPlaylist();
     console.log('PlaylistComponent constructor');
   }
 

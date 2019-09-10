@@ -8,8 +8,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {PLAYLIST, VIDEOS} from '../mock-videos';
 import {Video} from '../video';
+import {VideoService} from '../video.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -18,10 +19,13 @@ import {Video} from '../video';
 })
 export class ListComponent
   implements OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
-  videos = VIDEOS;
-  playlist = PLAYLIST;
+  videos: Video[];
+  playlist: Video[];
 
-  constructor() {
+  constructor(private videoService: VideoService, private router: Router) {
+    videoService.addCount();
+    this.videos = this.videoService.getVideos();
+    this.playlist = this.videoService.getPlaylist();
     console.log('ListComponent constructor');
   }
 
@@ -53,9 +57,8 @@ export class ListComponent
     console.log('ListComponent ngOnDestroy');
   }
 
-  // TODO: open detail
   openDetail(video: Video) {
-    alert(`TODO open detail ${video.title}`);
+    this.router.navigate(['/detail/', video.id]);
   }
 
   addToPlaylist(video: Video) {

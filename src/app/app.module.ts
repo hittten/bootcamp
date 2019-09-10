@@ -10,6 +10,7 @@ import {FormsModule} from '@angular/forms';
 import {VideoComponent} from './videos/video/video.component';
 import { HighlightDirective } from './highlight.directive';
 import { TimePipe } from './time.pipe';
+import { DetailComponent } from './videos/detail/detail.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TimePipe } from './time.pipe';
     VideoComponent,
     HighlightDirective,
     TimePipe,
+    DetailComponent,
   ],
   imports: [
     BrowserModule,
