@@ -8,7 +8,8 @@ import {delay} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class VideoService {
-  constructor() {}
+  constructor() {
+  }
 
   getVideo(id: number): Observable<Video> {
     const index = VIDEOS.findIndex(video => video.id === id);
@@ -16,8 +17,17 @@ export class VideoService {
     return of(VIDEOS[index]).pipe(delay(500));
   }
 
-  getVideos(): Observable<Video[]> {
-    return of(VIDEOS).pipe(delay(500));
+  getVideos(search?: string): Observable<Video[]> {
+    if (!search) {
+      return of(VIDEOS).pipe(delay(500));
+    }
+
+    return new Observable<Video[]>(subscriber => {
+      const query = new RegExp(search);
+      const result = VIDEOS.filter(video => query.test(video.title));
+
+      subscriber.next(result);
+    }).pipe(delay(500));
   }
 
   getPlaylist(): Observable<Video[]> {
