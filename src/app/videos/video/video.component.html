@@ -8,7 +8,7 @@
   </div>
   <div class="createdAt">{{video.createdAt | date:'short' }}</div>
   <div>
-    <button (click)="onClickButton()">{{buttonLabel}}</button>
+    <button #button (click)="onClickButton(button)">{{buttonLabel}}</button>
     <button (click)="toggleFavorite(video)">Fav</button>
     <button (click)="check.checked=!check.checked">Ref</button>
     <button (click)="toggleFavoriteViewChild()">VC</button>

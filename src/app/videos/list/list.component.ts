@@ -1,13 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  DoCheck,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Video} from '../video';
 import {VideoService} from '../video.service';
 import {Router} from '@angular/router';
@@ -18,53 +9,27 @@ import {Observable} from 'rxjs';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent
-  implements OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
+export class ListComponent implements OnInit {
   videos$: Observable<Video[]>;
   playlist$: Observable<Video[]>;
 
   constructor(private videoService: VideoService, private router: Router) {
-    videoService.addCount();
     this.videos$ = this.videoService.getVideos();
     this.playlist$ = this.videoService.getPlaylist();
-    console.log('ListComponent constructor');
   }
 
   ngOnInit() {
-    console.log('ListComponent ngOnInit');
-  }
-
-  ngAfterContentChecked(): void {
-    console.log('ListComponent ngAfterContentChecked');
-  }
-
-  ngAfterContentInit(): void {
-    console.log('ListComponent ngAfterContentInit');
-  }
-
-  ngAfterViewChecked(): void {
-    console.log('ListComponent ngAfterViewChecked');
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ListComponent ngAfterViewInit');
-  }
-
-  ngDoCheck(): void {
-    console.log('ListComponent ngDoCheck');
-  }
-
-  ngOnDestroy(): void {
-    console.log('ListComponent ngOnDestroy');
   }
 
   openDetail(video: Video) {
     this.router.navigate(['/detail/', video.id]);
   }
 
-  addToPlaylist(video: Video) {
-    this.playlist$.subscribe(videos => {
-      videos.push(video);
+  addToPlaylist(video: Video, button: HTMLButtonElement) {
+    button.disabled = true;
+    this.videoService.addToPlaylist(video).subscribe(newVideo => {
+      console.log('added to list:', newVideo.title);
+      button.disabled = false;
     });
   }
 }

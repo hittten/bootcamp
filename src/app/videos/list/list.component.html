@@ -1,4 +1,5 @@
-<div class="video-list">
-  <app-video *ngFor="let video of videos$ | async" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
-             (clickButton)="addToPlaylist(video)"></app-video>
+<div class="video-list" *ngIf="videos$ | async as videos; else loading">
+  <app-video *ngFor="let video of videos" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
+             (clickButton)="addToPlaylist(video, $event)"></app-video>
 </div>
+<ng-template #loading><img class="spinner" src="assets/spinner.gif" alt="loading"></ng-template>

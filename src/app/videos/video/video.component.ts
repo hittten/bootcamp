@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Video} from '../video';
 
 @Component({
@@ -6,11 +6,11 @@ import {Video} from '../video';
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
 })
-export class VideoComponent implements OnInit, OnChanges {
+export class VideoComponent implements OnInit {
   @Input() video: Video;
   @Input() buttonLabel: string;
   @Output() clickImage = new EventEmitter<void>();
-  @Output() clickButton = new EventEmitter<void>();
+  @Output() clickButton = new EventEmitter<HTMLButtonElement>();
 
   @ViewChild('check', {static: false}) checkInput: ElementRef;
 
@@ -20,16 +20,12 @@ export class VideoComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
   onClickImage() {
     this.clickImage.emit();
   }
 
-  onClickButton() {
-    this.clickButton.emit();
+  onClickButton(button: HTMLButtonElement) {
+    this.clickButton.emit(button);
   }
 
   toggleFavorite(video: Video) {
