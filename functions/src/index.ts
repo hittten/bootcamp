@@ -48,15 +48,15 @@ export const addVideo = functions.https.onRequest(async (request, response) => {
   response.json(video);
 });
 
-export const getVideos = functions.https.onRequest(async (request:functions.Request, response:functions.Response) => {
+export const getVideos = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
 
   const search = request.query.search || '';
-  const searchReg = new RegExp(search,'i');
+  const searchReg = new RegExp(search, 'i');
   console.debug('search', search);
 
   const videos = await db.collection('videos').get();
 
-  const responseVideos:any = [];
+  const responseVideos: any = [];
   videos.forEach(video => {
     const data = video.data();
 
@@ -74,4 +74,30 @@ export const getVideos = functions.https.onRequest(async (request:functions.Requ
   response.set('Access-Control-Allow-Origin', '*');
 
   response.json(responseVideos);
+});
+
+export const getVideo = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
+
+  const id = request.query.id;
+  if (!id) {
+    response.sendStatus(400);
+    return;
+  }
+
+  const video = await db.collection('videos').doc(id).get();
+
+  response.set('Cache-Control', 'public, max-age=15, s-maxage=30');
+  response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
+  response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
+  response.set('Access-Control-Allow-Credentials', 'true');
+  response.set('Access-Control-Allow-Origin', '*');
+
+  const data = video.data();
+  if (!video.exists || !data) {
+    response.sendStatus(404);
+
+    return;
+  }
+  const result = Object.assign({}, data, {createdAt: data.createdAt.toDate()});
+  response.json(result);
 });

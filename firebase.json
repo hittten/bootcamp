@@ -18,6 +18,10 @@
     ],
     "rewrites": [
       {
+        "source": "/api/getVideo",
+        "function": "getVideo"
+      },
+      {
         "source": "/api/getVideos",
         "function": "getVideos"
       },
