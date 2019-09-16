@@ -144,6 +144,46 @@ export const addToPlaylist = functions.https.onRequest(async (request: functions
   }
 });
 
+
+export const removeFromPlaylist = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
+  response.set('Access-Control-Allow-Methods', 'OPTIONS, POST');
+  response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
+  response.set('Access-Control-Allow-Credentials', 'true');
+  response.set('Access-Control-Allow-Origin', '*');
+
+  if (request.method !== 'POST') {
+    response.sendStatus(405);
+    return;
+  }
+
+  const idToken = request.header('Authorization');
+  if (!idToken) {
+    response.sendStatus(403);
+    return;
+  }
+
+  const id = request.body.id;
+  if (!id) {
+    response.sendStatus(400);
+    return;
+  }
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken.split(' ')[1]);
+    const playlist = await db.collection('users').doc(decodedToken.uid).collection('playlist').where('id','==', id).get();
+
+    playlist.forEach(async video => {
+      await db.collection('users').doc(decodedToken.uid).collection('playlist').doc(video.id).delete();
+
+      response.json(video);
+      return;
+    });
+  } catch (e) {
+    response.sendStatus(403);
+    console.error(e);
+  }
+});
+
 export const getPlaylist = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
   response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
