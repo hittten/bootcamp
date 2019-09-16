@@ -158,6 +158,11 @@ export const removeFromPlaylist = functions.https.onRequest(async (request: func
   response.set('Access-Control-Allow-Credentials', 'true');
   response.set('Access-Control-Allow-Origin', '*');
 
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
+
   if (request.method !== 'POST') {
     response.sendStatus(405);
     return;
@@ -177,13 +182,12 @@ export const removeFromPlaylist = functions.https.onRequest(async (request: func
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken.split(' ')[1]);
-    const playlist = await db.collection('users').doc(decodedToken.uid).collection('playlist').where('id','==', id).get();
+    const playlist = await db.collection('users').doc(decodedToken.uid).collection('playlist').where('id','==', id).limit(1).get();
 
     playlist.forEach(async video => {
       await db.collection('users').doc(decodedToken.uid).collection('playlist').doc(video.id).delete();
 
-      response.json(video);
-      return;
+      response.json(video.data());
     });
   } catch (e) {
     response.sendStatus(403);
