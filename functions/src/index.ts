@@ -39,16 +39,20 @@ export const addVideo = functions.https.onRequest(async (request, response) => {
   }
   await db.collection('videos').doc(video.id.toString()).set(video);
 
+  response.json(video);
+});
+
+export const getVideos = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
   response.set('Cache-Control', 'public, max-age=15, s-maxage=30');
   response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
   response.set('Access-Control-Allow-Credentials', 'true');
   response.set('Access-Control-Allow-Origin', '*');
 
-  response.json(video);
-});
-
-export const getVideos = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
 
   const search = request.query.search || '';
   const searchReg = new RegExp(search, 'i');
@@ -67,16 +71,20 @@ export const getVideos = functions.https.onRequest(async (request: functions.Req
     responseVideos.push(Object.assign({}, data, {createdAt: data.createdAt.toDate()}));
   });
 
+  response.json(responseVideos);
+});
+
+export const getVideo = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
   response.set('Cache-Control', 'public, max-age=15, s-maxage=30');
   response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
   response.set('Access-Control-Allow-Credentials', 'true');
   response.set('Access-Control-Allow-Origin', '*');
 
-  response.json(responseVideos);
-});
-
-export const getVideo = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
 
   const id = request.query.id;
   if (!id) {
@@ -85,12 +93,6 @@ export const getVideo = functions.https.onRequest(async (request: functions.Requ
   }
 
   const video = await db.collection('videos').doc(id).get();
-
-  response.set('Cache-Control', 'public, max-age=15, s-maxage=30');
-  response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
-  response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
-  response.set('Access-Control-Allow-Credentials', 'true');
-  response.set('Access-Control-Allow-Origin', '*');
 
   const data = video.data();
   if (!video.exists || !data) {
@@ -108,6 +110,11 @@ export const addToPlaylist = functions.https.onRequest(async (request: functions
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
   response.set('Access-Control-Allow-Credentials', 'true');
   response.set('Access-Control-Allow-Origin', '*');
+
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
 
   if (request.method !== 'POST') {
     response.sendStatus(405);
@@ -189,6 +196,11 @@ export const getPlaylist = functions.https.onRequest(async (request: functions.R
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
   response.set('Access-Control-Allow-Credentials', 'true');
   response.set('Access-Control-Allow-Origin', '*');
+
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
 
   if (request.method !== 'GET') {
     response.sendStatus(405);
