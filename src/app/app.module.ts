@@ -12,6 +12,7 @@ import { HighlightDirective } from './highlight.directive';
 import { TimePipe } from './time.pipe';
 import { DetailComponent } from './videos/detail/detail.component';
 import {HttpClientModule} from '@angular/common/http';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {HttpClientModule} from '@angular/common/http';
     HighlightDirective,
     TimePipe,
     DetailComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
