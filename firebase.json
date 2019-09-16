@@ -26,6 +26,18 @@
         "function": "getVideos"
       },
       {
+        "source": "/api/getPlaylist",
+        "function": "getPlaylist"
+      },
+      {
+        "source": "/api/addToPlaylist",
+        "function": "addToPlaylist"
+      },
+      {
+        "source": "/api/removeFromPlaylist",
+        "function": "removeFromPlaylist"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
