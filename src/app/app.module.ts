@@ -8,11 +8,11 @@ import {PlaylistComponent} from './videos/playlist/playlist.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {FormsModule} from '@angular/forms';
 import {VideoComponent} from './videos/video/video.component';
-import { HighlightDirective } from './highlight.directive';
-import { TimePipe } from './time.pipe';
-import { DetailComponent } from './videos/detail/detail.component';
+import {HighlightDirective} from './highlight.directive';
+import {TimePipe} from './time.pipe';
+import {DetailComponent} from './videos/detail/detail.component';
 import {HttpClientModule} from '@angular/common/http';
-import { LoginComponent } from './auth/login/login.component';
+import {LoginComponent} from './auth/login/login.component';
 
 @NgModule({
   declarations: [

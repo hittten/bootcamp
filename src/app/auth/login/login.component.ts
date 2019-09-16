@@ -15,7 +15,7 @@ export class LoginComponent {
   }
 
   setMessage() {
-    this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
+    this.message = 'Logged ' + (this.authService.isLoggedIn() ? 'in' : 'out');
   }
 
   login() {
@@ -23,7 +23,7 @@ export class LoginComponent {
 
     this.authService.login().subscribe(() => {
       this.setMessage();
-      if (this.authService.isLoggedIn) {
+      if (this.authService.isLoggedIn()) {
         // Get the redirect URL from our auth service
         // If no redirect has been set, use the default
         const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
