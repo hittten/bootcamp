@@ -11,6 +11,7 @@ import {VideoComponent} from './videos/video/video.component';
 import { HighlightDirective } from './highlight.directive';
 import { TimePipe } from './time.pipe';
 import { DetailComponent } from './videos/detail/detail.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { DetailComponent } from './videos/detail/detail.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

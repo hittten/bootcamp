@@ -1,54 +1,37 @@
 import {Injectable} from '@angular/core';
 import {Video} from './video';
-import {PLAYLIST, VIDEOS} from './mock-videos';
-import {Observable, of} from 'rxjs';
-import {delay} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VideoService {
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   getVideo(id: number): Observable<Video> {
-    const index = VIDEOS.findIndex(video => video.id === id);
-
-    return of(VIDEOS[index]).pipe(delay(500));
+    return this.http.get<Video>(environment.apiUrl + 'getVideo?id=' + id);
   }
 
   getVideos(search?: string): Observable<Video[]> {
     if (!search) {
-      return of(VIDEOS).pipe(delay(500));
+      return this.http.get<Video[]>(environment.apiUrl + 'getVideos');
     }
 
-    return new Observable<Video[]>(subscriber => {
-      const query = new RegExp(search);
-      const result = VIDEOS.filter(video => query.test(video.title));
-
-      subscriber.next(result);
-    }).pipe(delay(500));
+    return this.http.get<Video[]>(environment.apiUrl + 'getVideos?search=' + search);
   }
 
   getPlaylist(): Observable<Video[]> {
-    return of(PLAYLIST).pipe(delay(500));
+    return this.http.get<Video[]>(environment.apiUrl + 'getPlaylist');
   }
 
   addToPlaylist(video: Video) {
-    return new Observable<Video>(subscriber => {
-      PLAYLIST.push(video);
-      subscriber.next(video);
-      subscriber.complete();
-    }).pipe(delay(500));
+    return this.http.post<Video>(environment.apiUrl + 'addToPlaylist', {id: video.id});
   }
 
   removeFromPlaylist(video) {
-    return new Observable<Video>(subscriber => {
-      const id = PLAYLIST.findIndex(value => value.id === video.id);
-      PLAYLIST.splice(id, 1);
-
-      subscriber.next(video);
-      subscriber.complete();
-    }).pipe(delay(500));
+    return this.http.post<Video>(environment.apiUrl + 'removeFromPlaylist', {id: video.id});
   }
 }

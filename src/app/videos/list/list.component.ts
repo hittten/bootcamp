@@ -1,19 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Video} from '../video';
 import {VideoService} from '../video.service';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
-  videos$: Observable<Video[]>;
-  playlist$: Observable<Video[]>;
+export class ListComponent implements OnInit, OnDestroy {
+  private videos$: Observable<Video[]>;
   private searchTerms = new BehaviorSubject<string>('');
+  private videoSubscription: Subscription;
+
+  videos: Video[];
+  playlist$: Observable<Video[]>;
+  loading = true;
 
   constructor(private videoService: VideoService, private router: Router) {
     this.videos$ = this.searchTerms.pipe(
@@ -24,12 +28,16 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.videoService.getVideos(term)),
+      switchMap((term: string) => {
+        this.loading = true;
+        return this.videoService.getVideos(term).pipe(tap(() => this.loading = false));
+      }),
     );
     this.playlist$ = this.videoService.getPlaylist();
   }
 
   ngOnInit() {
+    this.videoSubscription = this.videos$.subscribe(videos => this.videos = videos);
   }
 
   openDetail(video: Video) {
@@ -46,5 +54,9 @@ export class ListComponent implements OnInit {
 
   search(value: string) {
     this.searchTerms.next(value);
+  }
+
+  ngOnDestroy(): void {
+    this.videoSubscription.unsubscribe();
   }
 }

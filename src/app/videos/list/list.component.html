@@ -1,8 +1,8 @@
 <label>
   <input #searchBox type="search" placeholder="Search" (input)="search(searchBox.value)">
 </label>
-<div class="video-list" *ngIf="videos$ | async as videos; else loading">
+<div class="video-list" *ngIf="!loading">
   <app-video *ngFor="let video of videos" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
              (clickButton)="addToPlaylist(video, $event)"></app-video>
 </div>
-<ng-template #loading><img class="spinner" src="assets/spinner.gif" alt="loading"></ng-template>
+<div *ngIf="loading"><img class="spinner" src="assets/spinner.gif" alt="loading"></div>
