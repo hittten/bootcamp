@@ -18,9 +18,10 @@ export class PlaylistComponent implements OnInit {
   ngOnInit() {
   }
 
-  removeFromPlaylist(video: Video, button: HTMLButtonElement) {
+  removeFromPlaylist(video: Video, button: HTMLButtonElement, element: HTMLDivElement) {
     button.disabled = true;
     this.videoService.removeFromPlaylist(video).subscribe(removedVideo => {
+      element.remove();
       console.log('removed from list:', removedVideo.title);
       button.disabled = false;
     });
