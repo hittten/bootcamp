@@ -3,5 +3,6 @@
     <app-video [video]="video" buttonLabel="-"
                (clickButton)="removeFromPlaylist(video, $event, videoItem)"></app-video>
   </div>
+  <button (click)="clearPlaylist()">Clear list</button>
 </div>
 <ng-template #loading><img class="spinner" src="assets/spinner.gif" alt="loading"></ng-template>

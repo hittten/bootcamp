@@ -13,6 +13,8 @@ import {TimePipe} from './time.pipe';
 import {DetailComponent} from './videos/detail/detail.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './auth/login/login.component';
+import {StoreModule} from '@ngrx/store';
+import {reducers, metaReducers} from './reducers';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,13 @@ import {LoginComponent} from './auth/login/login.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

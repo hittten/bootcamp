@@ -4,6 +4,9 @@ import {VideoService} from '../video.service';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {State} from '../../reducers';
+import {add} from '../../actions/playlist.action';
 
 @Component({
   selector: 'app-list',
@@ -16,10 +19,9 @@ export class ListComponent implements OnInit, OnDestroy {
   private videoSubscription: Subscription;
 
   videos: Video[];
-  playlist$: Observable<Video[]>;
   loading = true;
 
-  constructor(private videoService: VideoService, private router: Router) {
+  constructor(private videoService: VideoService, private router: Router, private store: Store<State>) {
     this.videos$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -33,7 +35,6 @@ export class ListComponent implements OnInit, OnDestroy {
         return this.videoService.getVideos(term).pipe(tap(() => this.loading = false));
       }),
     );
-    this.playlist$ = this.videoService.getPlaylist();
   }
 
   ngOnInit() {
@@ -45,11 +46,12 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   addToPlaylist(video: Video, button: HTMLButtonElement) {
-    button.disabled = true;
-    this.videoService.addToPlaylist(video).subscribe(newVideo => {
-      console.log('added to list:', newVideo.title);
-      button.disabled = false;
-    });
+    this.store.dispatch(add(video));
+    // button.disabled = true;
+    // this.videoService.addToPlaylist(video).subscribe(newVideo => {
+    //   console.log('added to list:', newVideo.title);
+    //   button.disabled = false;
+    // });
   }
 
   search(value: string) {
