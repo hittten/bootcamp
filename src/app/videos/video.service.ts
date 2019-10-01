@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AuthService} from '../auth/auth.service';
+import {switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -25,36 +26,21 @@ export class VideoService {
   }
 
   getPlaylist(): Observable<Video[]> {
-    return new Observable<Video[]>(subscriber => {
-      this.authService.getToken().subscribe(token => {
-        const headers = this.getAuthHeader(token);
-
-        this.http.get<Video[]>(environment.apiUrl + 'getPlaylist', headers)
-          .subscribe(videos => subscriber.next(videos));
-      });
-    });
+    return this.authService.getToken().pipe(
+      switchMap(token => this.http.get<Video[]>(environment.apiUrl + 'getPlaylist', this.getAuthHeader(token))),
+    );
   }
 
   addToPlaylist(video: Video): Observable<Video> {
-    return new Observable<Video>(subscriber => {
-      this.authService.getToken().subscribe(token => {
-        const headers = this.getAuthHeader(token);
-
-        this.http.post<Video>(environment.apiUrl + 'addToPlaylist', {id: video.id}, headers)
-          .subscribe(newVideo => subscriber.next(newVideo));
-      });
-    });
+    return this.authService.getToken().pipe(
+      switchMap(token => this.http.post<Video>(environment.apiUrl + 'addToPlaylist', {id: video.id}, this.getAuthHeader(token))),
+    );
   }
 
   removeFromPlaylist(video): Observable<Video> {
-    return new Observable<Video>(subscriber => {
-      this.authService.getToken().subscribe(token => {
-        const headers = this.getAuthHeader(token);
-
-        this.http.post<Video>(environment.apiUrl + 'removeFromPlaylist', {id: video.id}, headers)
-          .subscribe(newVideo => subscriber.next(newVideo));
-      });
-    });
+    return this.authService.getToken().pipe(
+      switchMap(token => this.http.post<Video>(environment.apiUrl + 'removeFromPlaylist', {id: video.id}, this.getAuthHeader(token))),
+    );
   }
 
   private getAuthHeader(token: string) {

@@ -20,9 +20,9 @@ export class AuthService {
     return false;
   }
 
-  login(): Observable<boolean> {
+  login(email: string, password: string): Observable<boolean> {
     return new Observable(subscriber => {
-      const body = {email: 'gilberto.amb@gmail.com', password: '123456', returnSecureToken: true};
+      const body = {email, password, returnSecureToken: true};
 
       const subscription = this.http.post(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyArolz8c11XA31DGbR_nKtqjzbuf29HeHc',
