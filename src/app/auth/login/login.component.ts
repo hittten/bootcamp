@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../auth.service';
-import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {login, logout} from '../../actions/user.actions';
+import {selectUser, State} from '../../reducers';
+import {Observable} from 'rxjs';
+import {User} from '../../reducers/user.reducer';
 
 @Component({
   selector: 'app-login',
@@ -8,34 +12,17 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  message: string;
+  user$: Observable<User>;
 
-  constructor(public authService: AuthService, public router: Router) {
-    this.setMessage();
-  }
-
-  setMessage() {
-    this.message = 'Logged ' + (this.authService.isLoggedIn() ? 'in' : 'out');
+  constructor(public authService: AuthService, private store: Store<State>) {
+    this.user$ = this.store.select(selectUser);
   }
 
   login(email: string, password: string) {
-    this.message = 'Trying to log in ...';
-
-    this.authService.login(email, password).subscribe(() => {
-      this.setMessage();
-      if (this.authService.isLoggedIn()) {
-        // Get the redirect URL from our auth service
-        // If no redirect has been set, use the default
-        const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
-
-        // Redirect the user
-        this.router.navigateByUrl(redirect);
-      }
-    });
+    this.store.dispatch(login({email, password}));
   }
 
   logout() {
-    this.authService.logout();
-    this.setMessage();
+    this.store.dispatch(logout());
   }
 }

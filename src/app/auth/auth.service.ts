@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {User} from '../reducers/user.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -20,23 +22,20 @@ export class AuthService {
     return false;
   }
 
-  login(email: string, password: string): Observable<boolean> {
-    return new Observable(subscriber => {
-      const body = {email, password, returnSecureToken: true};
+  login(email: string, password: string): Observable<User> {
+    const body = {email, password, returnSecureToken: true};
 
-      const subscription = this.http.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyArolz8c11XA31DGbR_nKtqjzbuf29HeHc',
-        body,
-      )
-        .subscribe((token: any) => {
+    return this.http.post(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyArolz8c11XA31DGbR_nKtqjzbuf29HeHc',
+      body,
+    )
+      .pipe(
+        tap((token: any) => {
           document.cookie = `token=${token.idToken};max-age=${token.expiresIn}`;
           document.cookie = `refreshToken=${token.refreshToken}`;
-          subscriber.next(true);
-          subscription.unsubscribe();
-        }, (error) => {
-          subscriber.error(error);
-        });
-    });
+        }),
+        switchMap((token) => of({id: token.localId, email: token.email})),
+      );
   }
 
   getToken(): Observable<string | null> {
@@ -61,19 +60,19 @@ export class AuthService {
   }
 
   private getRefreshToken(refreshToken: string) {
-    return new Observable<string>(subscriber => {
-      const body = {grant_type: 'refresh_token', refresh_token: refreshToken};
-      const subscription = this.http.post(
-        'https://securetoken.googleapis.com/v1/token?key=AIzaSyArolz8c11XA31DGbR_nKtqjzbuf29HeHc',
-        body,
-      )
-        .subscribe((token: any) => {
+    const body = {grant_type: 'refresh_token', refresh_token: refreshToken};
+
+    return this.http.post(
+      'https://securetoken.googleapis.com/v1/token?key=AIzaSyArolz8c11XA31DGbR_nKtqjzbuf29HeHc',
+      body,
+    )
+      .pipe(
+        tap((token: any) => {
           document.cookie = `token=${token.access_token};max-age=${token.expires_in}`;
           document.cookie = `refreshToken=${token.refresh_token}`;
-          subscriber.next(token.access_token);
-          subscription.unsubscribe();
-        });
-    });
+        }),
+        map((token: any) => token.access_token),
+      );
   }
 
   private getCookie(name: string) {

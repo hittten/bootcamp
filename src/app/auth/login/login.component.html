@@ -1,5 +1,8 @@
 <h2>LOGIN</h2>
-<p>{{message}}</p>
+<div *ngIf="user$ | async as user">
+  <p>id: {{user.id}}</p>
+  <p>email: {{user.email}}</p>
+</div>
 <form *ngIf="!authService.isLoggedIn()">
   <label>
     Email:

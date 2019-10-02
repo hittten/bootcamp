@@ -18,7 +18,8 @@ import {reducers, metaReducers} from './reducers';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
-import {PlaylistEffects} from './playlist.effects';
+import {PlaylistEffects} from './effects/playlist.effects';
+import {UserEffects} from './effects/user.effects';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import {PlaylistEffects} from './playlist.effects';
       },
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    EffectsModule.forRoot([PlaylistEffects]),
+    EffectsModule.forRoot([PlaylistEffects, UserEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
