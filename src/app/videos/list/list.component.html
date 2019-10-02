@@ -3,6 +3,6 @@
 </label>
 <div class="video-list" *ngIf="!loading">
   <app-video *ngFor="let video of videos" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
-             (clickButton)="addToPlaylist(video, $event)"></app-video>
+             (clickButton)="addToPlaylist(video)"></app-video>
 </div>
 <div *ngIf="loading"><img class="spinner" src="assets/spinner.gif" alt="loading"></div>

@@ -43,6 +43,12 @@ export class VideoService {
     );
   }
 
+  clearPlaylist(): Observable<void> {
+    return this.authService.getToken().pipe(
+      switchMap(token => this.http.delete<void>(environment.apiUrl + 'clearPlaylist', this.getAuthHeader(token))),
+    );
+  }
+
   private getAuthHeader(token: string) {
     return {
       headers: new HttpHeaders({

@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import * as fromRoot from '../../reducers';
 import {Store} from '@ngrx/store';
 import {State} from '../../reducers';
-import {clear, remove} from '../../actions/playlist.action';
+import {clear, listLoad, remove} from '../../actions/playlist.action';
 
 @Component({
   selector: 'app-playlist',
@@ -14,22 +14,19 @@ import {clear, remove} from '../../actions/playlist.action';
 })
 export class PlaylistComponent implements OnInit {
   playlist$: Observable<Video[]>;
+  loading$: Observable<boolean>;
 
   constructor(private videoService: VideoService, private store: Store<State>) {
-    this.playlist$ = this.store.select(fromRoot.selectPlaylist);
+    this.playlist$ = this.store.select(fromRoot.selectPlaylistList);
+    this.loading$ = this.store.select(fromRoot.selectPlaylistLoading);
   }
 
   ngOnInit() {
+    this.store.dispatch(listLoad());
   }
 
-  removeFromPlaylist(video: Video, button: HTMLButtonElement, element: HTMLDivElement) {
-    this.store.dispatch(remove(video));
-    button.disabled = true;
-    // this.videoService.removeFromPlaylist(video).subscribe(removedVideo => {
-    //   element.remove();
-    //   console.log('removed from list:', removedVideo.title);
-    //   button.disabled = false;
-    // });
+  removeFromPlaylist(video: Video) {
+    this.store.dispatch(remove({video}));
   }
 
   clearPlaylist() {

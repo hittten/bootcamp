@@ -45,13 +45,8 @@ export class ListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/detail/', video.id]);
   }
 
-  addToPlaylist(video: Video, button: HTMLButtonElement) {
-    this.store.dispatch(add(video));
-    // button.disabled = true;
-    // this.videoService.addToPlaylist(video).subscribe(newVideo => {
-    //   console.log('added to list:', newVideo.title);
-    //   button.disabled = false;
-    // });
+  addToPlaylist(video: Video) {
+    this.store.dispatch(add({video}));
   }
 
   search(value: string) {
