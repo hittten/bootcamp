@@ -1,9 +1,18 @@
-<nav>
-  <a routerLink="/videos" routerLinkActive="active">Videos</a>
-  <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
-  <a routerLink="/login" routerLinkActive="active">Login</a>
-</nav>
-<router-outlet></router-outlet>
+<header>
+  <nav>
+    <a mat-button id="logo" routerLink="/">
+      <img src="https://material.angular.io/assets/img/homepage/angular-white-transparent.svg" alt="logo" width="25px"
+           height="25px">
+      <span>Bootcamp</span>
+    </a>
+    <a mat-button routerLink="/videos" routerLinkActive="active">Videos</a>
+    <a mat-button routerLink="/playlist" routerLinkActive="active">Playlist</a>
+    <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+  </nav>
+</header>
+<div id="content">
+  <router-outlet></router-outlet>
+</div>
 <div *ngIf="error$ | async as message" id="error">
   <span>{{message}}</span>
   <button (click)="closeMessage()">X</button>

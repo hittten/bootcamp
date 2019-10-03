@@ -7,13 +7,30 @@ a {
   text-decoration: none;
 }
 
-a.active {
-  color: red;
+header {
+  background: dodgerblue;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2);
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+nav {
+  display: flex;
+  padding: 5px;
+  align-items: center;
 }
 
 nav a {
-  display: inline-block;
-  padding: 5px;
+  color: white;
+}
+
+nav a.active {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#content {
+  padding: 50px 10px;
 }
 
 #error {
