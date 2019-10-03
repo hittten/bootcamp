@@ -21,6 +21,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {PlaylistEffects} from './effects/playlist.effects';
 import {UserEffects} from './effects/user.effects';
 import {VideoEffects} from './effects/video.effects';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {VideoEffects} from './effects/video.effects';
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([UserEffects, VideoEffects, PlaylistEffects]),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

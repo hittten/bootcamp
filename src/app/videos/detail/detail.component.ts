@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Video} from '../video';
-import {ActivatedRoute} from '@angular/router';
-import {VideoService} from '../video.service';
-import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {selectRouteId, selectVideoDetail, selectVideoLoading, State} from '../../reducers';
+import {getVideo} from '../../actions/video.actions';
 
 @Component({
   selector: 'app-detail',
@@ -10,15 +9,15 @@ import {Observable} from 'rxjs';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  video$: Observable<Video>;
+  video$ = this.store.select(selectVideoDetail);
+  loading$ = this.store.select(selectVideoLoading);
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService) {
-    const id = this.route.snapshot.paramMap.get('id');
-
-    this.video$ = this.videoService.getVideo(parseInt(id, 10));
+  constructor(private store: Store<State>) {
   }
 
   ngOnInit() {
+    this.store.select(selectRouteId).subscribe(id => {
+      this.store.dispatch(getVideo({id: parseInt(id, 10)}));
+    }).unsubscribe();
   }
-
 }

@@ -1,4 +1,5 @@
-<div *ngIf="video$ | async as video">
+<div *ngIf="!(loading$ | async) && video$ | async as video">
   <p>detail of {{video.title}}</p>
   <app-video [video]="video" buttonLabel="+"></app-video>
 </div>
+<div *ngIf="loading$ | async"><img class="spinner" src="assets/spinner.gif" alt="loading"></div>
