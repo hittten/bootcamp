@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {add, clear, listLoad, listSuccess, remove} from '../actions/playlist.action';
-import {Video} from '../videos/video';
+import {Video} from '../../videos/video';
 
 export interface Playlist {
   list: Video[];

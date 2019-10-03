@@ -14,14 +14,14 @@ import {DetailComponent} from './videos/detail/detail.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './auth/login/login.component';
 import {StoreModule} from '@ngrx/store';
-import {reducers, metaReducers} from './reducers';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
-import {PlaylistEffects} from './effects/playlist.effects';
-import {UserEffects} from './effects/user.effects';
-import {VideoEffects} from './effects/video.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {metaReducers, reducers} from './store/reducers';
+import {UserEffects} from './store/effects/user.effects';
+import {VideoEffects} from './store/effects/video.effects';
+import {PlaylistEffects} from './store/effects/playlist.effects';
 
 @NgModule({
   declarations: [

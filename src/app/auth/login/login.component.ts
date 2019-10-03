@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Store} from '@ngrx/store';
-import {login, logout} from '../../actions/user.actions';
-import {selectUser, State} from '../../reducers';
 import {Observable} from 'rxjs';
-import {User} from '../../reducers/user.reducer';
+import {User} from '../../store/reducers/user.reducer';
+import {State} from '../../store/reducers';
+import {selectUser} from '../../store/selectors';
+import {login, logout} from '../../store/actions/user.actions';
 
 @Component({
   selector: 'app-login',

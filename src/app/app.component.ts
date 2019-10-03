@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ErrorMessage} from './reducers/error-message.reducer';
 import {Store} from '@ngrx/store';
-import {selectError, State} from './reducers';
-import {clearError} from './actions/error.actions';
+import {ErrorMessage} from './store/reducers/error-message.reducer';
+import {State} from './store/reducers';
+import {selectError} from './store/selectors';
+import {clearError} from './store/actions/error.actions';
 
 @Component({
   selector: 'app-root',

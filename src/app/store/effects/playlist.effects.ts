@@ -13,9 +13,9 @@ import {
   removeSuccess,
 } from '../actions/playlist.action';
 import {catchError, map, mergeMap} from 'rxjs/operators';
-import {VideoService} from '../videos/video.service';
 import {of} from 'rxjs';
 import {newError} from '../actions/error.actions';
+import {VideoService} from '../../videos/video.service';
 
 @Injectable()
 export class PlaylistEffects {

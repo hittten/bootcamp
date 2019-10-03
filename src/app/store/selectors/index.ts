@@ -1,30 +1,11 @@
-import {
-  ActionReducerMap,
-  createFeatureSelector, createSelector,
-  MetaReducer,
-} from '@ngrx/store';
-import {environment} from '../../environments/environment';
-import {Playlist, playlistReducer} from './playlist.reducer';
-import {ErrorMessage, errorMessageReducer} from './error-message.reducer';
-import {User, userReducer} from './user.reducer';
-import {VideoList, videoReducer} from './video.reducer';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
+import {User} from '../reducers/user.reducer';
+import {VideoList} from '../reducers/video.reducer';
+import {Playlist} from '../reducers/playlist.reducer';
+import {ErrorMessage} from '../reducers/error-message.reducer';
+import {State} from '../reducers';
 
-export interface State {
-  router: fromRouter.RouterReducerState<any>;
-  user: User | null;
-  videos: VideoList;
-  playlist: Playlist;
-  error: ErrorMessage;
-}
-
-export const reducers: ActionReducerMap<State> = {
-  router: fromRouter.routerReducer,
-  user: userReducer,
-  videos: videoReducer,
-  playlist: playlistReducer,
-  error: errorMessageReducer,
-};
 
 export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
 const {
@@ -65,5 +46,3 @@ export const selectVideoDetail = createSelector(
   selectVideos,
   (videos) => videos.detail,
 );
-
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

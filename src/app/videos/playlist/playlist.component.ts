@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Video} from '../video';
 import {VideoService} from '../video.service';
 import {Observable} from 'rxjs';
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../store/selectors';
 import {Store} from '@ngrx/store';
-import {State} from '../../reducers';
-import {clear, listLoad, remove} from '../../actions/playlist.action';
+import {State} from '../../store/reducers';
+import {clear, listLoad, remove} from '../../store/actions/playlist.action';
 
 @Component({
   selector: 'app-playlist',

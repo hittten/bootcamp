@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {login, loginFail, loginSuccess, logout, logoutSuccess} from '../actions/user.actions';
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
-import {AuthService} from '../auth/auth.service';
 import {of} from 'rxjs';
 import {newError} from '../actions/error.actions';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AuthService} from '../../auth/auth.service';
 
 @Injectable()
 export class UserEffects {

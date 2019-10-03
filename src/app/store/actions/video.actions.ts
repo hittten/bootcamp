@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Video} from '../videos/video';
+import {Video} from '../../videos/video';
 
 export const listLoad = createAction('[VIDEO] list load');
 export const listSuccess = createAction('[VIDEO] list success', props<{ videos: Video[] }>());

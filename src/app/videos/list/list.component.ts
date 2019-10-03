@@ -4,10 +4,11 @@ import {VideoService} from '../video.service';
 import {Router} from '@angular/router';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {selectVideoList, selectVideoLoading, State} from '../../reducers';
-import {add} from '../../actions/playlist.action';
-import {listLoad, search} from '../../actions/video.actions';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {listLoad, search} from '../../store/actions/video.actions';
+import {add} from '../../store/actions/playlist.action';
+import {selectVideoList, selectVideoLoading} from '../../store/selectors';
+import {State} from '../../store/reducers';
 
 @Component({
   selector: 'app-list',

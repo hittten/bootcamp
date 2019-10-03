@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {map, switchMap, tap} from 'rxjs/operators';
-import {User} from '../reducers/user.reducer';
+import {User} from '../store/reducers/user.reducer';
 
 @Injectable({
   providedIn: 'root',

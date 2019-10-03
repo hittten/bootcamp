@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
-import {Video} from '../videos/video';
 import {getVideo, getVideoSuccess, listLoad, listSuccess, search} from '../actions/video.actions';
+import {Video} from '../../videos/video';
 
 export interface VideoList {
   list: Video[];

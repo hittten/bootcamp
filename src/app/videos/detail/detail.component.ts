@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {selectRouteId, selectVideoDetail, selectVideoLoading, State} from '../../reducers';
-import {getVideo} from '../../actions/video.actions';
+import {selectRouteId, selectVideoDetail, selectVideoLoading} from '../../store/selectors';
+import {getVideo} from '../../store/actions/video.actions';
+import {State} from '../../store/reducers';
 
 @Component({
   selector: 'app-detail',

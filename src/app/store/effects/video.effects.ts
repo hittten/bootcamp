@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {map, mergeMap, switchMap} from 'rxjs/operators';
-import {VideoService} from '../videos/video.service';
 import {getVideo, getVideoSuccess, listLoad, listSuccess, search} from '../actions/video.actions';
+import {VideoService} from '../../videos/video.service';
 
 @Injectable()
 export class VideoEffects {
