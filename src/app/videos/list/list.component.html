@@ -1,5 +1,8 @@
 <label>
-  <input #searchBox type="search" placeholder="Search" (input)="search(searchBox.value)">
+  <mat-form-field class="full-width">
+    <input matInput #searchBox type="search" placeholder="Search" (input)="search(searchBox.value)">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
 </label>
 <div class="video-list" *ngIf="!(loading$ | async) && videos$ | async as videos">
   <app-video *ngFor="let video of videos" [video]="video" (clickImage)="openDetail(video)" buttonLabel="+"
