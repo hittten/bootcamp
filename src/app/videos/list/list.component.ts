@@ -2,11 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Video} from '../video';
 import {VideoService} from '../video.service';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {Observable, of, Subject, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {State} from '../../reducers';
+import {selectVideoList, selectVideoLoading, State} from '../../reducers';
 import {add} from '../../actions/playlist.action';
+import {listLoad, search} from '../../actions/video.actions';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -14,15 +15,21 @@ import {add} from '../../actions/playlist.action';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit, OnDestroy {
-  private videos$: Observable<Video[]>;
-  private searchTerms = new BehaviorSubject<string>('');
-  private videoSubscription: Subscription;
+  private searchTerms = new Subject<string>();
+  private searchSubscription: Subscription;
 
-  videos: Video[];
-  loading = true;
+  videos$: Observable<Video[]>;
+  loading$: Observable<boolean>;
 
-  constructor(private videoService: VideoService, private router: Router, private store: Store<State>) {
-    this.videos$ = this.searchTerms.pipe(
+  constructor(
+    private videoService: VideoService,
+    private router: Router,
+    private store: Store<State>,
+  ) {
+    this.videos$ = this.store.select(selectVideoList);
+    this.loading$ = this.store.select(selectVideoLoading);
+
+    this.searchSubscription = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -30,15 +37,13 @@ export class ListComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => {
-        this.loading = true;
-        return this.videoService.getVideos(term).pipe(tap(() => this.loading = false));
-      }),
-    );
+      switchMap(term => of(term)),
+    )
+      .subscribe(term => this.store.dispatch(search({term})));
   }
 
   ngOnInit() {
-    this.videoSubscription = this.videos$.subscribe(videos => this.videos = videos);
+    this.store.dispatch(listLoad());
   }
 
   openDetail(video: Video) {
@@ -54,6 +59,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.videoSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
   }
 }

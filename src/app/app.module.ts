@@ -20,6 +20,7 @@ import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {PlaylistEffects} from './effects/playlist.effects';
 import {UserEffects} from './effects/user.effects';
+import {VideoEffects} from './effects/video.effects';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import {UserEffects} from './effects/user.effects';
       },
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    EffectsModule.forRoot([PlaylistEffects, UserEffects]),
+    EffectsModule.forRoot([UserEffects, VideoEffects, PlaylistEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
