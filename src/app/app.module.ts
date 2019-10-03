@@ -22,6 +22,7 @@ import {metaReducers, reducers} from './store/reducers';
 import {UserEffects} from './store/effects/user.effects';
 import {VideoEffects} from './store/effects/video.effects';
 import {PlaylistEffects} from './store/effects/playlist.effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {PlaylistEffects} from './store/effects/playlist.effects';
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([UserEffects, VideoEffects, PlaylistEffects]),
     StoreRouterConnectingModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
