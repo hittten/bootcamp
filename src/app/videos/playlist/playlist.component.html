@@ -1,8 +1,8 @@
 <div class="video-list" *ngIf="!(loading$ | async) && playlist$ | async as playlist">
   <div *ngFor="let video of playlist">
-    <app-video [video]="video" buttonLabel="-"
+    <app-video [video]="video" buttonLabel="remove_circle_outline"
                (clickButton)="removeFromPlaylist(video)"></app-video>
   </div>
-  <button (click)="clearPlaylist()">Clear list</button>
+  <button mat-button color="warn" (click)="clearPlaylist()">Clear list</button>
 </div>
 <img *ngIf="loading$ | async" class="spinner" src="assets/spinner.gif" alt="loading">

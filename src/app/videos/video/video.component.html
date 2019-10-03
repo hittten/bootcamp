@@ -2,21 +2,20 @@
   <img [src]="video.image" alt="{{video.title}}" (click)="onClickImage()">
   <div>
     <strong>{{video.title}}</strong> ({{video.duration | time}})
-    <label>
-      <input #check type="checkbox" [(ngModel)]="video.favorite">
-    </label>
+    <mat-checkbox #check type="checkbox" [(ngModel)]="video.favorite"></mat-checkbox>
   </div>
   <div class="createdAt">{{video.createdAt | date:'short' }}</div>
   <div>
-    <button #button (click)="onClickButton(button)">{{buttonLabel}}</button>
-    <button (click)="toggleFavorite(video)">Fav</button>
-    <button (click)="check.checked=!check.checked">Ref</button>
-    <button (click)="toggleFavoriteViewChild()">VC</button>
+    <button mat-icon-button color="warn" #button (click)="onClickButton(button)">
+      <mat-icon>{{buttonLabel}}</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" matTooltip="Toggle Favorite" (click)="toggleFavorite(video)">F</button>
+    <button mat-icon-button color="primary" matTooltip="Ref Element" (click)="check.checked=!check.checked">R</button>
+    <button mat-icon-button color="primary" matTooltip="ViewChild" (click)="toggleFavoriteViewChild()">V</button>
   </div>
   <div>
-    <label>
-      Note: <br>
-      <textarea appHighlight [(ngModel)]="video.note"></textarea>
-    </label>
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Note" appHighlight [(ngModel)]="video.note"></textarea>
+    </mat-form-field>
   </div>
 </div>
