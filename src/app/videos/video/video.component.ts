@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {Video} from '../video';
 import {Store} from '@ngrx/store';
 import {State} from '../../store/reducers';
+import {MatButton} from '@angular/material';
 
 @Component({
   selector: 'app-video',
@@ -12,7 +13,7 @@ export class VideoComponent implements OnInit {
   @Input() video: Video;
   @Input() buttonLabel: string;
   @Output() clickImage = new EventEmitter<void>();
-  @Output() clickButton = new EventEmitter<HTMLButtonElement>();
+  @Output() clickButton = new EventEmitter<MatButton>();
 
   @ViewChild('check', {static: false}) checkInput: ElementRef;
 
@@ -33,7 +34,7 @@ export class VideoComponent implements OnInit {
     this.clickImage.emit();
   }
 
-  onClickButton(button: HTMLButtonElement) {
+  onClickButton(button: MatButton) {
     this.clickButton.emit(button);
   }
 
