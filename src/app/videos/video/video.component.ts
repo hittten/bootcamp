@@ -1,5 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Video} from '../video';
+import {Store} from '@ngrx/store';
+import {State} from '../../store/reducers';
 
 @Component({
   selector: 'app-video',
@@ -14,7 +16,14 @@ export class VideoComponent implements OnInit {
 
   @ViewChild('check', {static: false}) checkInput: ElementRef;
 
-  constructor() {
+  isLogged = false;
+
+  constructor(private store: Store<State>) {
+    this.store.select('user').subscribe(user => {
+      if (user) {
+        this.isLogged = true;
+      }
+    }).unsubscribe();
   }
 
   ngOnInit() {

@@ -6,7 +6,7 @@
   </div>
   <div class="createdAt">{{video.createdAt | date:'short' }}</div>
   <div>
-    <button mat-icon-button color="warn" #button (click)="onClickButton(button)">
+    <button *ngIf="isLogged" mat-icon-button color="warn" #button (click)="onClickButton(button)">
       <mat-icon>{{buttonLabel}}</mat-icon>
     </button>
     <button mat-icon-button color="primary" matTooltip="Toggle Favorite" (click)="toggleFavorite(video)">F</button>

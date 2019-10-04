@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {login, loginFail, loginSuccess, logout, logoutSuccess} from '../actions/user.actions';
-import {catchError, exhaustMap, mergeMap, tap} from 'rxjs/operators';
+import {loginCheck, login, loginFail, loginSuccess, logout, logoutSuccess} from '../actions/user.actions';
+import {catchError, exhaustMap, map, mergeMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {newError} from '../actions/error.actions';
 import {Router} from '@angular/router';
@@ -11,6 +11,24 @@ import {showMessage} from '../actions/snack-bar.actions';
 
 @Injectable()
 export class UserEffects {
+  checkLogin$ = createEffect(() => this.actions$.pipe(
+    ofType(loginCheck),
+    mergeMap(() => {
+      if (!this.authService.isLoggedIn()) {
+        return [loginFail()];
+      }
+      return this.authService.getUser().pipe(
+        map(user => loginSuccess({user})),
+        catchError((error) => {
+          console.error(error);
+          this.authService.logout();
+
+          return of(loginFail());
+        }),
+      );
+    }),
+  ));
+
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(login),

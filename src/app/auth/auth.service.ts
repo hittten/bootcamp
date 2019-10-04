@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {User} from '../store/reducers/user.reducer';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,21 @@ export class AuthService {
   redirectUrl: string;
 
   isLoggedIn(): boolean {
-    if (this.getCookie('token') || this.getCookie('refreshToken')) {
-      return true;
-    }
+    return !!(this.getCookie('token') || this.getCookie('refreshToken'));
+  }
 
-    return false;
+  getUser(): Observable<User> {
+    return this.getToken()
+      .pipe(
+        switchMap(token => this.http.get<User>(
+          environment.apiUrl + 'getUser',
+          {
+            headers: new HttpHeaders({
+              Authorization: 'Bearer ' + token,
+            }),
+          }),
+        )
+      );
   }
 
   login(email: string, password: string): Observable<User> {
