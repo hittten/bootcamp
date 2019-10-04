@@ -75,7 +75,7 @@ export const getVideos = functions.https.onRequest(async (request: functions.Req
 });
 
 export const getVideo = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
-  response.set('Cache-Control', 'public, max-age=15, s-maxage=30');
+  response.set('Cache-Control', 'public, max-age=30, s-maxage=60');
   response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
   response.set('Access-Control-Allow-Credentials', 'true');
