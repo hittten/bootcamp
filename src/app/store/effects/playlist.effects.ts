@@ -16,6 +16,7 @@ import {catchError, map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {newError} from '../actions/error.actions';
 import {VideoService} from '../../videos/video.service';
+import {showMessage} from '../actions/snack-bar.actions';
 
 @Injectable()
 export class PlaylistEffects {
@@ -29,14 +30,20 @@ export class PlaylistEffects {
   addToPlaylist$ = createEffect(() => this.actions$.pipe(
     ofType(add),
     mergeMap((action) => this.videoService.addToPlaylist(action.video).pipe(
-      map(video => addSuccess({video})),
+      mergeMap(video => [
+        addSuccess({video}),
+        showMessage({message: 'Added to playlist'}),
+      ]),
     )),
   ));
 
   removeFromPlaylist$ = createEffect(() => this.actions$.pipe(
     ofType(remove),
     mergeMap((action) => this.videoService.removeFromPlaylist(action.video).pipe(
-      map(video => removeSuccess({video})),
+      mergeMap(video => [
+        removeSuccess({video}),
+        showMessage({message: 'Removed from playlist'}),
+      ]),
       catchError(() => of(removeFail(), newError({error: 'Error removing video from playlist'}))),
     )),
   ));

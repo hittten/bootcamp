@@ -13,7 +13,3 @@
 <div id="content">
   <router-outlet></router-outlet>
 </div>
-<div *ngIf="error$ | async as message" id="error">
-  <span>{{message}}</span>
-  <button (click)="closeMessage()">X</button>
-</div>

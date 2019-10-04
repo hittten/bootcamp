@@ -1,10 +1,5 @@
-import {
-  ActionReducerMap,
-  createFeatureSelector, createSelector,
-  MetaReducer,
-} from '@ngrx/store';
+import {ActionReducerMap, MetaReducer} from '@ngrx/store';
 import {Playlist, playlistReducer} from './playlist.reducer';
-import {ErrorMessage, errorMessageReducer} from './error-message.reducer';
 import {User, userReducer} from './user.reducer';
 import {VideoList, videoReducer} from './video.reducer';
 import * as fromRouter from '@ngrx/router-store';
@@ -15,7 +10,6 @@ export interface State {
   user: User | null;
   videos: VideoList;
   playlist: Playlist;
-  error: ErrorMessage;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -23,7 +17,6 @@ export const reducers: ActionReducerMap<State> = {
   user: userReducer,
   videos: videoReducer,
   playlist: playlistReducer,
-  error: errorMessageReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

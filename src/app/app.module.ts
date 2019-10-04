@@ -24,6 +24,7 @@ import {VideoEffects} from './store/effects/video.effects';
 import {PlaylistEffects} from './store/effects/playlist.effects';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './app.material.module';
+import {SnackBarEffects} from './store/effects/snack-bar.effects';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import {MaterialModule} from './app.material.module';
       },
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    EffectsModule.forRoot([UserEffects, VideoEffects, PlaylistEffects]),
+    EffectsModule.forRoot([UserEffects, VideoEffects, PlaylistEffects, SnackBarEffects]),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
     MaterialModule,

@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {login, loginFail, loginSuccess, logout, logoutSuccess} from '../actions/user.actions';
-import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
+import {catchError, exhaustMap, mergeMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {newError} from '../actions/error.actions';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../auth/auth.service';
+import {showMessage} from '../actions/snack-bar.actions';
 
 @Injectable()
 export class UserEffects {
@@ -20,7 +21,10 @@ export class UserEffects {
 
               this.router.navigateByUrl(redirect);
             }),
-            map(user => loginSuccess({user})),
+            mergeMap(user => [
+              loginSuccess({user}),
+              showMessage({message: 'Welcome ' + user.email}),
+            ]),
             catchError((error: HttpErrorResponse) => {
               const message = error.error.error.errors[0].message;
 
@@ -35,10 +39,10 @@ export class UserEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(logout),
-      map(() => {
+      mergeMap(() => {
         this.authService.logout();
 
-        return logoutSuccess();
+        return [logoutSuccess(), showMessage({message: 'Bye!'})];
       }),
     ),
   );
