@@ -1,7 +1,10 @@
 .content {
   margin-bottom: 10px;
   padding: 0 5px;
-  width: 220px;
+  width: 290px;
+}
+.content img {
+  width: 100%;
 }
 
 .createdAt {
@@ -9,6 +12,16 @@
 }
 
 textarea {
-  width: 215px;
   height: 50px;
+}
+
+@media screen and (min-width: 400px) {
+  .content {
+    width: 185px;
+  }
+}
+@media screen and (min-width: 780px) {
+  .content {
+    width: 300px;
+  }
 }

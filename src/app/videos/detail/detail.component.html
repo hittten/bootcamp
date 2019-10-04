@@ -1,6 +1,6 @@
-<div *ngIf="!(loading$ | async) && video$ | async as video">
-  <p>detail of {{video.title}}</p>
-  <app-video [video]="video" buttonLabel="+"></app-video>
+<div class="detail" *ngIf="!(loading$ | async) && video$ | async as video">
+  <h2>detail of {{video.title}}</h2>
+  <app-video [video]="video" buttonLabel="playlist_add"></app-video>
 </div>
 <div *ngIf="loading$ | async" class="spinner">
   <mat-spinner></mat-spinner>
