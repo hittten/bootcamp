@@ -38,6 +38,10 @@
         "function": "removeFromPlaylist"
       },
       {
+        "source": "/api/getUser",
+        "function": "getUser"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

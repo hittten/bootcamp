@@ -104,7 +104,6 @@ export const getVideo = functions.https.onRequest(async (request: functions.Requ
   response.json(result);
 });
 
-
 export const addToPlaylist = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
   response.set('Access-Control-Allow-Methods', 'OPTIONS, POST');
   response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
@@ -150,7 +149,6 @@ export const addToPlaylist = functions.https.onRequest(async (request: functions
     console.error(e);
   }
 });
-
 
 export const removeFromPlaylist = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
   response.set('Access-Control-Allow-Methods', 'OPTIONS, POST');
@@ -228,6 +226,43 @@ export const getPlaylist = functions.https.onRequest(async (request: functions.R
     });
 
     response.json(responseVideos);
+  } catch (e) {
+    response.sendStatus(403);
+    console.error(e);
+  }
+});
+
+export const getUser = functions.https.onRequest(async (request: functions.Request, response: functions.Response) => {
+  response.set('Access-Control-Allow-Methods', 'OPTIONS, GET');
+  response.set('Access-Control-Allow-Headers', 'Authorization,Content-Type');
+  response.set('Access-Control-Allow-Credentials', 'true');
+  response.set('Access-Control-Allow-Origin', '*');
+
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
+
+  if (request.method !== 'GET') {
+    response.sendStatus(405);
+    return;
+  }
+
+  const idToken = request.header('Authorization');
+  if (!idToken) {
+    response.sendStatus(403);
+    return;
+  }
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken.split(' ')[1]);
+    const authUser = await admin.auth().getUser(decodedToken.uid);
+    const user = {
+      id: authUser.uid,
+      email: authUser.email,
+    };
+
+    response.json(user);
   } catch (e) {
     response.sendStatus(403);
     console.error(e);
