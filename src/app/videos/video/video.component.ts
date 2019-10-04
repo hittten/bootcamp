@@ -1,15 +1,16 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Video} from '../video';
 import {Store} from '@ngrx/store';
 import {State} from '../../store/reducers';
 import {MatButton} from '@angular/material';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, OnDestroy {
   @Input() video: Video;
   @Input() buttonLabel: string;
   @Output() clickImage = new EventEmitter<void>();
@@ -19,12 +20,14 @@ export class VideoComponent implements OnInit {
 
   isLogged = false;
 
+  private subscription: Subscription;
+
   constructor(private store: Store<State>) {
-    this.store.select('user').subscribe(user => {
+    this.subscription = this.store.select('user').subscribe(user => {
       if (user) {
         this.isLogged = true;
       }
-    }).unsubscribe();
+    });
   }
 
   ngOnInit() {
@@ -44,5 +47,9 @@ export class VideoComponent implements OnInit {
 
   toggleFavoriteViewChild() {
     this.checkInput.nativeElement.checked = !this.checkInput.nativeElement.checked;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
