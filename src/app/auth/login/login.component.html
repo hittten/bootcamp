@@ -1,17 +1,17 @@
-<h2>LOGIN</h2>
-<div *ngIf="user$ | async as user">
-  <p>id: {{user.id}}</p>
-  <p>email: {{user.email}}</p>
-</div>
-<form *ngIf="!authService.isLoggedIn()">
-  <label>
-    Email:
-    <input #email type="text">
-  </label>
-  <label>
-    Password:
-    <input #password type="password">
-  </label>
-  <button (click)="login(email.value, password.value)">Login</button>
-</form>
-<button (click)="logout()" *ngIf="authService.isLoggedIn()">Logout</button>
+<mat-card>
+  <h2>LOGIN</h2>
+  <div *ngIf="user$ | async as user">
+    <p>id: {{user.id}}</p>
+    <p>email: {{user.email}}</p>
+  </div>
+  <form *ngIf="!authService.isLoggedIn()">
+    <mat-form-field class="full-width">
+      <input #email matInput placeholder="Email">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="password" #password matInput placeholder="Password">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="login(email.value, password.value)">Login</button>
+  </form>
+  <button mat-raised-button color="primary" (click)="logout()" *ngIf="authService.isLoggedIn()">Logout</button>
+</mat-card>
