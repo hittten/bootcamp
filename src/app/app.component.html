@@ -7,8 +7,12 @@
     </a>
     <a mat-button routerLink="/videos" routerLinkActive="active">Videos</a>
     <a mat-button routerLink="/playlist" routerLinkActive="active">Playlist</a>
-    <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
   </nav>
+  <div id="account">
+    <a mat-icon-button routerLink="/login" routerLinkActive="active">
+      <mat-icon>account_circle</mat-icon>
+    </a>
+  </div>
 </header>
 <div id="content">
   <router-outlet></router-outlet>

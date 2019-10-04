@@ -11,3 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .full-width {
   width: 100%;
 }
+
+.video-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
